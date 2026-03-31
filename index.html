@@ -179,11 +179,6 @@
               </svg>
             </div>
             <!-- X axis labels -->
-            <div style="display: flex; justify-content: space-between; margin-top: 6px;">
-              {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map(m =>
-                `<span style="font-size: 11px; color: #9ba3af;">${m}</span>`
-              ).join('')}
-            </div>
             <div style="display: flex; justify-content: space-between; margin-top: 6px; padding: 0 4px;">
               <span style="font-size: 11px; color: #9ba3af;">Jan</span>
               <span style="font-size: 11px; color: #9ba3af;">Feb</span>
@@ -321,7 +316,7 @@
     </main>
 
     <!-- ─── Right Panel – Top Members ─────────────────────────────── -->
-    <aside style="width: 240px; min-width: 240px; border-left: 1px solid #e9eaeb; padding: 24px 16px; overflow-y: auto;">
+    <aside style="width: 240px; min-width: 240px; border-left: 1px solid #e9eaeb; padding: 24px 16px; overflow-y: auto; align-self: flex-start; position: sticky; top: 0; max-height: 100vh;">
       <h2 style="font-size: 13px; font-weight: 600; color: #181d27; margin: 0 0 16px;">Top members</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
         <!-- Member rows -->
