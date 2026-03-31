@@ -166,8 +166,8 @@
               </span>
             </div>
             <!-- SVG Sparkline -->
-            <div class="sparkline">
-              <svg viewBox="0 0 600 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="sparkline" style="position: relative;" id="sparklineWrap">
+              <svg id="sparklineSvg" viewBox="0 0 600 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:80px;display:block;cursor:crosshair;">
                 <defs>
                   <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stop-color="#7f56d9" stop-opacity="0.15"/>
@@ -176,8 +176,55 @@
                 </defs>
                 <path d="M0,55 C30,52 60,58 90,50 C120,42 150,48 180,44 C210,40 240,46 270,42 C300,38 330,44 360,36 C390,28 420,34 450,30 C480,26 510,32 540,24 C570,16 590,20 600,18 L600,80 L0,80 Z" fill="url(#chartGrad)"/>
                 <path d="M0,55 C30,52 60,58 90,50 C120,42 150,48 180,44 C210,40 240,46 270,42 C300,38 330,44 360,36 C390,28 420,34 450,30 C480,26 510,32 540,24 C570,16 590,20 600,18" fill="none" stroke="#7f56d9" stroke-width="2"/>
+                <!-- Hover line -->
+                <line id="hoverLine" x1="0" y1="0" x2="0" y2="80" stroke="#7f56d9" stroke-width="1" stroke-dasharray="3,2" opacity="0" pointer-events="none"/>
+                <!-- Hover dot -->
+                <circle id="hoverDot" cx="0" cy="0" r="4" fill="#7f56d9" stroke="white" stroke-width="2" opacity="0" pointer-events="none"/>
+                <!-- Invisible hover overlay -->
+                <rect id="hoverRect" x="0" y="0" width="600" height="80" fill="transparent"/>
               </svg>
+              <!-- Tooltip -->
+              <div id="chartTooltip" style="display:none; position:absolute; background:#181d27; color:#fff; font-size:12px; font-weight:600; padding:6px 10px; border-radius:7px; pointer-events:none; white-space:nowrap; transform:translateX(-50%); box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
             </div>
+            <script>
+              (function() {
+                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                const values = [14200,14800,14500,15200,15800,16100,16500,17000,17200,17800,18200,18880];
+                // Y positions matching the SVG path points
+                const yPoints = [55,58,50,48,44,46,42,38,36,30,24,18];
+                const svg = document.getElementById('sparklineSvg');
+                const hoverLine = document.getElementById('hoverLine');
+                const hoverDot = document.getElementById('hoverDot');
+                const tooltip = document.getElementById('chartTooltip');
+                const rect = document.getElementById('hoverRect');
+
+                rect.addEventListener('mousemove', function(e) {
+                  const bbox = svg.getBoundingClientRect();
+                  const x = (e.clientX - bbox.left) / bbox.width;
+                  const idx = Math.min(11, Math.max(0, Math.round(x * 11)));
+                  const svgX = (idx / 11) * 600;
+                  const svgY = yPoints[idx];
+
+                  hoverLine.setAttribute('x1', svgX);
+                  hoverLine.setAttribute('x2', svgX);
+                  hoverLine.setAttribute('opacity', '1');
+                  hoverDot.setAttribute('cx', svgX);
+                  hoverDot.setAttribute('cy', svgY);
+                  hoverDot.setAttribute('opacity', '1');
+
+                  tooltip.style.display = 'block';
+                  tooltip.style.left = (bbox.width * (idx / 11)) + 'px';
+                  tooltip.style.top = '-36px';
+                  tooltip.innerHTML = months[idx] + ' &nbsp;<span style="color:#a78bfa">$' + values[idx].toLocaleString() + '</span>';
+                });
+
+                rect.addEventListener('mouseleave', function() {
+                  hoverLine.setAttribute('opacity', '0');
+                  hoverDot.setAttribute('opacity', '0');
+                  tooltip.style.display = 'none';
+                });
+              })();
+            </script>
             <!-- X axis labels -->
             <div style="display: flex; justify-content: space-between; margin-top: 6px; padding: 0 4px;">
               <span style="font-size: 11px; color: #9ba3af;">Jan</span>
