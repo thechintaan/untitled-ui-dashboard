@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Untitled UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    body { margin: 0; background: #fff; }
+
+    /* Sparkline chart */
+    .sparkline { position: relative; height: 80px; }
+    .sparkline svg { width: 100%; height: 100%; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+    /* Nav active state */
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: #414651; transition: background 0.15s; }
+    .nav-item:hover { background: #f9fafb; }
+    .nav-item.active { background: #f9fafb; color: #181d27; }
+
+    /* Tag pills */
+    .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 16px; font-size: 12px; font-weight: 500; border: 1px solid #e9eaeb; color: #414651; }
+    .tag::before { content: '•'; font-size: 8px; }
+
+    /* Stats up badge */
+    .stat-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 500; color: #079455; }
+  </style>
+</head>
+<body>
+  <div style="display: flex; height: 100vh; overflow: hidden; background: #fff;">
+
+    <!-- ─── Sidebar ─────────────────────────────────────────────────── -->
+    <aside style="width: 280px; min-width: 280px; border-right: 1px solid #e9eaeb; display: flex; flex-direction: column; height: 100vh; overflow: hidden;">
+
+      <!-- Logo -->
+      <div style="padding: 20px 16px 8px; display: flex; align-items: center; gap: 10px;">
+        <div style="width: 32px; height: 32px; background: #7f56d9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="white" opacity="0.9"/></svg>
+        </div>
+        <span style="font-size: 15px; font-weight: 600; color: #181d27;">Untitled UI</span>
+      </div>
+
+      <!-- Search -->
+      <div style="padding: 8px 16px;">
+        <div style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #e9eaeb; border-radius: 8px; padding: 8px 12px;">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#9ba3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span style="font-size: 14px; color: #9ba3af; flex: 1;">Search</span>
+          <span style="font-size: 11px; color: #9ba3af; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; border: 1px solid #e9eaeb;">⌘K</span>
+        </div>
+      </div>
+
+      <!-- Nav Top -->
+      <nav style="padding: 8px 8px; flex: 1; overflow-y: auto;">
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </div>
+        <div class="nav-item active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </div>
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Projects
+        </div>
+        <div class="nav-item" style="justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Tasks
+          </div>
+          <span style="background: #f3f4f6; color: #535862; font-size: 12px; font-weight: 500; padding: 1px 8px; border-radius: 12px;">8</span>
+        </div>
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Reporting
+        </div>
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Users
+        </div>
+
+        <div style="height: 1px; background: #e9eaeb; margin: 12px 4px;"></div>
+
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Support
+        </div>
+        <div class="nav-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Settings
+        </div>
+      </nav>
+
+      <!-- Notification Banner -->
+      <div style="margin: 0 12px 12px; background: #f9fafb; border: 1px solid #e9eaeb; border-radius: 10px; padding: 12px; position: relative;">
+        <button style="position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; color: #9ba3af; padding: 0;">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <p style="font-size: 13px; font-weight: 600; color: #181d27; margin: 0 0 4px;">New features available!</p>
+        <p style="font-size: 12px; color: #535862; margin: 0 0 12px; line-height: 1.5;">Check out the new dashboard view. Pages now load faster.</p>
+        <div style="display: flex; gap: 12px;">
+          <button style="font-size: 13px; font-weight: 500; color: #535862; background: none; border: none; cursor: pointer; padding: 0;">Dismiss</button>
+          <button style="font-size: 13px; font-weight: 500; color: #6941c6; background: none; border: none; cursor: pointer; padding: 0;">What's new?</button>
+        </div>
+        <div style="margin-top: 10px; border-radius: 8px; overflow: hidden; height: 72px; background: #e9eaeb;">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&q=80" style="width: 100%; height: 100%; object-fit: cover;" alt="" />
+        </div>
+      </div>
+
+      <!-- User Profile -->
+      <div style="border-top: 1px solid #e9eaeb; padding: 12px 16px; display: flex; align-items: center; gap: 10px;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: #d6cfb7;">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" style="width: 100%; height: 100%; object-fit: cover;" alt="Olivia Rhye" />
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <p style="font-size: 14px; font-weight: 600; color: #181d27; margin: 0;">Olivia Rhye</p>
+          <p style="font-size: 12px; color: #535862; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">olivia@untitledui.com</p>
+        </div>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#9ba3af" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+      </div>
+    </aside>
+
+    <!-- ─── Main Content ───────────────────────────────────────────── -->
+    <main style="flex: 1; overflow-y: auto; background: #fff;">
+
+      <!-- Header -->
+      <div style="padding: 24px 28px 0;">
+        <h1 style="font-size: 22px; font-weight: 700; color: #181d27; margin: 0 0 16px;">Dashboard</h1>
+
+        <!-- Time filters -->
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+          <div style="display: flex; border: 1px solid #e9eaeb; border-radius: 8px; overflow: hidden;">
+            <button style="padding: 7px 14px; font-size: 13px; font-weight: 500; background: #f9fafb; color: #414651; border: none; cursor: pointer; border-right: 1px solid #e9eaeb;">12 months</button>
+            <button style="padding: 7px 14px; font-size: 13px; font-weight: 500; background: #fff; color: #414651; border: none; cursor: pointer; border-right: 1px solid #e9eaeb;">30 days</button>
+            <button style="padding: 7px 14px; font-size: 13px; font-weight: 500; background: #fff; color: #414651; border: none; cursor: pointer; border-right: 1px solid #e9eaeb;">7 days</button>
+            <button style="padding: 7px 14px; font-size: 13px; font-weight: 500; background: #fff; color: #414651; border: none; cursor: pointer;">24 hours</button>
+          </div>
+          <div style="flex: 1;"></div>
+          <button style="display: flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 13px; font-weight: 500; color: #414651; background: #fff; border: 1px solid #e9eaeb; border-radius: 8px; cursor: pointer;">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Select dates
+          </button>
+          <button style="display: flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 13px; font-weight: 500; color: #414651; background: #fff; border: 1px solid #e9eaeb; border-radius: 8px; cursor: pointer;">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Filters
+          </button>
+        </div>
+
+        <!-- MRR + Stats Row -->
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; margin-bottom: 28px;">
+
+          <!-- MRR Chart Card -->
+          <div style="border: 1px solid #e9eaeb; border-radius: 12px; padding: 20px 24px;">
+            <p style="font-size: 12px; font-weight: 500; color: #535862; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">MRR</p>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+              <span style="font-size: 30px; font-weight: 700; color: #181d27;">$18,880</span>
+              <span class="stat-badge">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                7.4%
+              </span>
+            </div>
+            <!-- SVG Sparkline -->
+            <div class="sparkline">
+              <svg viewBox="0 0 600 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7f56d9" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#7f56d9" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,55 C30,52 60,58 90,50 C120,42 150,48 180,44 C210,40 240,46 270,42 C300,38 330,44 360,36 C390,28 420,34 450,30 C480,26 510,32 540,24 C570,16 590,20 600,18 L600,80 L0,80 Z" fill="url(#chartGrad)"/>
+                <path d="M0,55 C30,52 60,58 90,50 C120,42 150,48 180,44 C210,40 240,46 270,42 C300,38 330,44 360,36 C390,28 420,34 450,30 C480,26 510,32 540,24 C570,16 590,20 600,18" fill="none" stroke="#7f56d9" stroke-width="2"/>
+              </svg>
+            </div>
+            <!-- X axis labels -->
+            <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+              {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map(m =>
+                `<span style="font-size: 11px; color: #9ba3af;">${m}</span>`
+              ).join('')}
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 6px; padding: 0 4px;">
+              <span style="font-size: 11px; color: #9ba3af;">Jan</span>
+              <span style="font-size: 11px; color: #9ba3af;">Feb</span>
+              <span style="font-size: 11px; color: #9ba3af;">Mar</span>
+              <span style="font-size: 11px; color: #9ba3af;">Apr</span>
+              <span style="font-size: 11px; color: #9ba3af;">May</span>
+              <span style="font-size: 11px; color: #9ba3af;">Jun</span>
+              <span style="font-size: 11px; color: #9ba3af;">Jul</span>
+              <span style="font-size: 11px; color: #9ba3af;">Aug</span>
+              <span style="font-size: 11px; color: #9ba3af;">Sep</span>
+              <span style="font-size: 11px; color: #9ba3af;">Oct</span>
+              <span style="font-size: 11px; color: #9ba3af;">Nov</span>
+              <span style="font-size: 11px; color: #9ba3af;">Dec</span>
+            </div>
+          </div>
+
+          <!-- Stats Column -->
+          <div style="display: flex; flex-direction: column; gap: 0; min-width: 200px;">
+            <div style="border: 1px solid #e9eaeb; border-radius: 12px 12px 0 0; padding: 16px 20px; border-bottom: none;">
+              <p style="font-size: 12px; color: #535862; margin: 0 0 4px;">Total members</p>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 26px; font-weight: 700; color: #181d27;">4,862</span>
+                <span class="stat-badge" style="font-size: 12px;">
+                  <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                  9.2%
+                </span>
+              </div>
+            </div>
+            <div style="border: 1px solid #e9eaeb; padding: 16px 20px; border-bottom: none;">
+              <p style="font-size: 12px; color: #535862; margin: 0 0 4px;">Paid members</p>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 26px; font-weight: 700; color: #181d27;">2,671</span>
+                <span class="stat-badge" style="font-size: 12px;">
+                  <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                  6.6%
+                </span>
+              </div>
+            </div>
+            <div style="border: 1px solid #e9eaeb; border-radius: 0 0 12px 12px; padding: 16px 20px;">
+              <p style="font-size: 12px; color: #535862; margin: 0 0 4px;">Email open rate</p>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 26px; font-weight: 700; color: #181d27;">82%</span>
+                <span class="stat-badge" style="font-size: 12px;">
+                  <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                  8.1%
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Start creating content -->
+        <div style="margin-bottom: 28px;">
+          <h2 style="font-size: 15px; font-weight: 600; color: #181d27; margin: 0 0 14px;">Start creating content</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="border: 1px solid #e9eaeb; border-radius: 10px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color 0.15s;" onmouseover="this.style.borderColor='#7f56d9'" onmouseout="this.style.borderColor='#e9eaeb'">
+              <div style="width: 36px; height: 36px; background: #f9fafb; border: 1px solid #e9eaeb; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#414651" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 600; color: #181d27; margin: 0 0 2px;">Create your first member</p>
+                <p style="font-size: 13px; color: #535862; margin: 0;">Add yourself or import from CSV</p>
+              </div>
+            </div>
+            <div style="border: 1px solid #e9eaeb; border-radius: 10px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color 0.15s;" onmouseover="this.style.borderColor='#7f56d9'" onmouseout="this.style.borderColor='#e9eaeb'">
+              <div style="width: 36px; height: 36px; background: #f9fafb; border: 1px solid #e9eaeb; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#414651" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 600; color: #181d27; margin: 0 0 2px;">Create a new post</p>
+                <p style="font-size: 13px; color: #535862; margin: 0;">Dive into the editor and start creating</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent posts -->
+        <div style="margin-bottom: 32px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+            <h2 style="font-size: 15px; font-weight: 600; color: #181d27; margin: 0;">Recent posts</h2>
+            <button style="background: none; border: none; cursor: pointer; padding: 4px; color: #9ba3af;">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+            </button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+
+            <!-- Post 1 -->
+            <div style="border: 1px solid #e9eaeb; border-radius: 12px; overflow: hidden;">
+              <div style="height: 180px; overflow: hidden; background: #e9eaeb;">
+                <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=600&q=80" style="width: 100%; height: 100%; object-fit: cover;" alt="" />
+              </div>
+              <div style="padding: 14px 16px;">
+                <p style="font-size: 12px; color: #7f56d9; font-weight: 500; margin: 0 0 6px;">
+                  <span style="color: #7f56d9;">Olivia Rhye</span>
+                  <span style="color: #9ba3af;"> • 20 Jan 2025</span>
+                </p>
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+                  <h3 style="font-size: 15px; font-weight: 600; color: #181d27; margin: 0; line-height: 1.4;">UX review presentations</h3>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#9ba3af" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </div>
+                <p style="font-size: 13px; color: #535862; margin: 0 0 12px; line-height: 1.5;">How do you create compelling presentations that wow your colleagues and impress your managers?</p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <span class="tag">Design</span>
+                  <span class="tag">Research</span>
+                  <span class="tag">Presentation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div style="border: 1px solid #e9eaeb; border-radius: 12px; overflow: hidden;">
+              <div style="height: 180px; overflow: hidden; background: #e9eaeb;">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80" style="width: 100%; height: 100%; object-fit: cover;" alt="" />
+              </div>
+              <div style="padding: 14px 16px;">
+                <p style="font-size: 12px; color: #7f56d9; font-weight: 500; margin: 0 0 6px;">
+                  <span style="color: #7f56d9;">Phoenix Baker</span>
+                  <span style="color: #9ba3af;"> • 19 Jan 2025</span>
+                </p>
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+                  <h3 style="font-size: 15px; font-weight: 600; color: #181d27; margin: 0; line-height: 1.4;">Migrating to Linear 101</h3>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#9ba3af" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </div>
+                <p style="font-size: 13px; color: #535862; margin: 0 0 12px; line-height: 1.5;">Linear helps streamline software projects, sprints, tasks, and bug tracking. Here's how to get...</p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <span class="tag">Design</span>
+                  <span class="tag">Research</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ─── Right Panel – Top Members ─────────────────────────────── -->
+    <aside style="width: 240px; min-width: 240px; border-left: 1px solid #e9eaeb; padding: 24px 16px; overflow-y: auto;">
+      <h2 style="font-size: 13px; font-weight: 600; color: #181d27; margin: 0 0 16px;">Top members</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <!-- Member rows -->
+        <div id="members"></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // Render top members
+    const members = [
+      { name: "Phoenix Baker",  since: "Feb 2025", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&q=80", online: true },
+      { name: "Lana Steiner",   since: "Jan 2025",  img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=64&q=80", online: true },
+      { name: "Demi Wikinson",  since: "Mar 2025", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&q=80", online: true },
+      { name: "Candice Wu",     since: "Feb 2025", img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=64&q=80", online: false },
+      { name: "Natali Craig",   since: "Mar 2025", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=64&q=80", online: false },
+      { name: "Orlando Diggs",  since: "Apr 2025", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&q=80", online: false },
+      { name: "Drew Cano",      since: "Apr 2025", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&q=80", online: false },
+      { name: "Kate Morrison",  since: "Jan 2025",  img: "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=64&q=80", online: false },
+      { name: "Koray Okumus",   since: "Feb 2025", img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=64&q=80", online: false },
+      { name: "Ava Wright",     since: "Mar 2025", img: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=64&q=80", online: false },
+    ];
+
+    const container = document.getElementById('members');
+    container.innerHTML = members.map(m => `
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="position: relative; flex-shrink: 0;">
+          <img src="${m.img}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #e9eaeb;" alt="${m.name}" />
+          ${m.online ? `<span style="position: absolute; bottom: 1px; right: 1px; width: 8px; height: 8px; background: #17b26a; border-radius: 50%; border: 1.5px solid #fff;"></span>` : ''}
+        </div>
+        <div style="min-width: 0; flex: 1;">
+          <p style="font-size: 13px; font-weight: 500; color: #414651; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.name}</p>
+          <p style="font-size: 12px; color: #535862; margin: 0;">Member since ${m.since}</p>
+        </div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>
